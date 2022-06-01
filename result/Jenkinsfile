@@ -9,6 +9,10 @@ stages
 {
 stage("build")
 {
+when
+{
+changeset "**/result/**"
+}
 steps
 {
 echo 'Build result app'
@@ -22,7 +26,6 @@ stage("test")
 {
 when
 {
-branch 'master'
 changeset "**/result/**"
 }
 steps
