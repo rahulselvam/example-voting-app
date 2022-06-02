@@ -1,9 +1,11 @@
 pipeline 
 {
-agent any
-tools
+agent
 {
-nodejs 'node 8.9.0'
+docker
+{
+image 'node:8.16.0-alpine'
+}
 }
 stages
 {
