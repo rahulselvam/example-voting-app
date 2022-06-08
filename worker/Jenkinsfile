@@ -52,7 +52,8 @@ stage("package")
 {
 when
 {
-branch 'master'changeset "**/worker/**"
+branch 'master'
+changeset "**/worker/**"
 }
 agent
 {
@@ -66,7 +67,8 @@ steps
 echo 'Packaging worker app'
 dir('worker')
 {
-sh 'mvn package -DskipTests'archiveArtifacts artifacts: '**/target/*.jar',fingerprint: true
+sh 'mvn package -DskipTests'
+archiveArtifacts artifacts: '**/target/*.jar',fingerprint: true
 }
 }
 }
