@@ -80,7 +80,8 @@ branch 'master'
 }
 steps
 {
-echo 'Packaging worker app with docker'script
+echo 'Packaging worker app with docker'
+script
 {
 docker.withRegistry('https://index.docker.io/v1/','dockerlogin') 
 {
