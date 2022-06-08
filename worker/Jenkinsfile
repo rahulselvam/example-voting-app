@@ -1,17 +1,21 @@
 pipeline 
 {
-agent
-{
-docker
-{
-image 'maven:3.6.1-jdk-8-slim'
-args '-v $HOME/.m2:/root/.m2'
-}
-}
+agent none
 stages
 {
 stage("build")
 {
+when
+{
+changeset "**/worker/**"
+}
+agent
+{
+docker
+{
+image 'maven:3.6.1-jdk-8-slim'args '-v $HOME/.m2:/root/.m2'
+}
+}
 steps
 {
 echo 'Compiling worker app'
@@ -23,6 +27,17 @@ sh 'mvn compile'
 }
 stage("test")
 {
+when
+{
+changeset "**/worker/**"
+}
+agent
+{
+docker
+{
+image 'maven:3.6.1-jdk-8-slim'args '-v $HOME/.m2:/root/.m2'
+}
+}
 steps
 {
 echo 'Running Unit Tests on worker app'
@@ -34,6 +49,18 @@ sh 'mvn clean test'
 }
 stage("package")
 {
+when
+{
+branch 'master'
+changeset "**/worker/**"
+}
+agent
+{
+docker
+{
+image 'maven:3.6.1-jdk-8-slim'args '-v $HOME/.m2:/root/.m2'
+}
+}
 steps
 {
 echo 'Packaging worker app'
