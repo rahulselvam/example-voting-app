@@ -1,8 +1,8 @@
-pipeline 
-{
+pipeline {
 agent none
 stages
 {
+
 stage("build")
 {
 when
@@ -10,21 +10,21 @@ when
 changeset "**/worker/**"
 }
 agent
-{
-docker
+{docker
 {
 image 'maven:3.6.1-jdk-8-slim'args '-v $HOME/.m2:/root/.m2'
 }
 }
 steps
 {
-echo 'Compiling worker app'
+echo 'Compiling worker app..'
 dir('worker')
 {
 sh 'mvn compile'
 }
 }
 }
+
 stage("test")
 {
 when
@@ -40,19 +40,19 @@ image 'maven:3.6.1-jdk-8-slim'args '-v $HOME/.m2:/root/.m2'
 }
 steps
 {
-echo 'Running Unit Tests on worker app'
+echo 'Running Unit Tests on worker app..'
 dir('worker')
 {
 sh 'mvn clean test'
 }
 }
 }
+
 stage("package")
 {
 when
 {
-branch 'master'
-changeset "**/worker/**"
+branch 'master'changeset "**/worker/**"
 }
 agent
 {
@@ -66,29 +66,33 @@ steps
 echo 'Packaging worker app'
 dir('worker')
 {
-sh 'mvn package -DskipTests'
-archiveArtifacts artifacts: '**/target/*.jar',fingerprint: true
+sh 'mvn package -DskipTests'archiveArtifacts artifacts: '**/target/*.jar',fingerprint: true
 }
 }
 }
 stage('docker-package')
 {
 agent any
+when
+{
+changeset "**/worker/**"branch 'master'
+}
 steps
 {
-echo 'Packaging worker app with docker'
-script
+echo 'Packaging worker app with docker'script
 {
-docker.withRegistry('https://index.docker.io/v1/','dockerlogin')
+docker.withRegistry('https://index.docker.io/v1/','dockerlogin') 
 {
-def workerImage = docker.build("rahulselvam/worker:v${env.BUILD_ID}", "./worker")
+def workerImage =docker.build("rahulselvam/worker:v${env.BUILD_ID}", "./worker")
 workerImage.push()
+workerImage.push("${env.BRANCH_NAME}")
 workerImage.push("latest")
 }
 }
 }
 }
 }
+
 post
 {
 always
