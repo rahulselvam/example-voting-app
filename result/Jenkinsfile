@@ -1,9 +1,6 @@
 pipeline 
 {
-agent
-{
-docker {image 'node:8.16.0-alpine'}
-}
+agent none
 stages
 {
 stage("build")
@@ -12,6 +9,11 @@ when
 {
 changeset "**/result/**"
 }
+agent{
+          docker{
+            image 'node:8.16.0-alpine'
+          }
+        }
 steps
 {
 echo 'Build result app'
@@ -27,6 +29,11 @@ when
 {
 changeset "**/result/**"
 }
+agent{
+          docker{
+            image 'node:8.16.0-alpine'
+          }
+        }
 steps
 {
 echo 'Running Tests on result app'
