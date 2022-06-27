@@ -10,6 +10,7 @@ networks:
 services:
   vote:
     image: rahulselvam/vote:latest
+    build: ./vote
     ports:
       - 5002:80
     depends_on:
@@ -33,6 +34,7 @@ services:
 
   result:
     image: rahulselvam/result:latest
+    build: ./result
     ports:
       - 5003:4000
     depends_on:
@@ -42,6 +44,7 @@ services:
 
   worker:
     image: rahulselvam/worker:latest
+    build: ./worker
     depends_on:
       - redis
       - db
