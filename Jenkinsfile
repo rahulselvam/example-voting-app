@@ -207,8 +207,8 @@ stage('vote-docker-package'){
       agent any
 /*      when{
         branch 'master'
-*/      }
-      tools {
+      }
+*/      tools {
         jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
       }
 
