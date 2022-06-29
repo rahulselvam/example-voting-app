@@ -225,7 +225,7 @@ stage('vote-docker-package'){
     }
 
 
-/*    stage("Quality Gate") {
+    stage("Quality Gate") {
         steps {
             timeout(time: 1, unit: 'HOURS') {
                 // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -234,7 +234,7 @@ stage('vote-docker-package'){
             }
         }
     }
-*/	  
+	  
 	  stage('deploy to dev')
 	  {
 		agent any
